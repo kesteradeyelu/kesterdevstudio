@@ -41,7 +41,7 @@ const ContactUs = () => {
     formState: { errors },
     setValue,
     watch,
-    // reset,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -72,31 +72,61 @@ const ContactUs = () => {
     }
   };
 
-  const onSubmit = (data: FormData) => {
-  const subject = encodeURIComponent("Message for you from Gmail");
-  const body = encodeURIComponent(
-    `Hello Kester Dev Studio,
+//   const onSubmit = (data: FormData) => {
+//   const subject = encodeURIComponent("Message for you from Gmail");
+//   const body = encodeURIComponent(
+//     `Hello Kester Dev Studio,
 
-You have a new message from your website contact form:
+// You have a new message from your website contact form:
 
-👤 Name: ${data.name}
-🏢 Company: ${data.company || "N/A"}
-📧 Email: ${data.email}
-📞 Phone: ${data.phone || "N/A"}
-🎯 Interests: ${(data.interests || []).join(", ")}
-💬 Message:
-${data.message}
+// 👤 Name: ${data.name}
+// 🏢 Company: ${data.company || "N/A"}
+// 📧 Email: ${data.email}
+// 📞 Phone: ${data.phone || "N/A"}
+// 🎯 Interests: ${(data.interests || []).join(", ")}
+// 💬 Message:
+// ${data.message}
 
-Referral: ${data.referral || "N/A"}
+// Referral: ${data.referral || "N/A"}
 
-Best regards,
-${data.name}`
-  );
+// Best regards,
+// ${data.name}`
+//   );
 
-  // open user's default mail app
-  const mailtoLink = `mailto:info@kesterdevstudio.com?subject=${subject}&body=${body}`;
-  window.location.href = mailtoLink;
+//   // open user's default mail app
+//   const mailtoLink = `mailto:info@kesterdevstudio.com?subject=${subject}&body=${body}`;
+//   window.location.href = mailtoLink;
+// };
+
+const onSubmit = async (data: FormData) => {
+  try {
+    const response = await fetch("http://localhost:4000/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert("✅ Your message has been sent successfully!");
+      console.log("Saved contact:", result.data);
+
+      // 🔹 Clear the form after success
+      reset(); 
+    } else {
+      alert("❌ Failed to send your message. Please try again later.");
+      console.error("Error response:", result);
+    }
+  } catch (error) {
+    console.error("Request failed:", error);
+    alert("⚠️ Unable to connect to the server. Check your network or try again later.");
+  }
 };
+
+
 
  
 
