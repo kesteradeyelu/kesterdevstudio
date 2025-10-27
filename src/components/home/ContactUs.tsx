@@ -100,7 +100,7 @@ const ContactUs = () => {
 
 const onSubmit = async (data: FormData) => {
   try {
-    const response = await fetch("http://localhost:4000/contact", {
+    const response = await fetch("https://kesterwebsiteupload-1.onrender.com/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
