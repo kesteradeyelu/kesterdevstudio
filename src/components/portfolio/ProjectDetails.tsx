@@ -14,6 +14,7 @@ interface Project {
   images: string[];
   problem?: string;
   solution?: string;
+  link?: string;
 }
 
 export default function ProjectDetails() {
@@ -59,6 +60,8 @@ export default function ProjectDetails() {
           <p className="text-slate-500">{project.category}</p>
           <h5 className="font-semibold mt-4 mb-2">Tags</h5>
           <p className="text-slate-500">{project.tags.join(", ")}</p>
+          <h5 className="font-semibold mt-4 mb-2">Link</h5>
+          <a href={project.link} target="_blank"><p className="text-slate-500">{project.link}</p></a>
         </div>
         <div>
           <h5 className="font-semibold mb-2">Problem</h5>
